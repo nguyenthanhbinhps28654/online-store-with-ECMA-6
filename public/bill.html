@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            padding-top: 20px;
+        }
+        .bill {
+            margin-top: 50px;
+        }
+        table {
+            width: 100%;
+            background-color: #1e1e1e;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ffffff;
+        }
+        th {
+            background-color: #343a40;
+        }
+        .btn-print {
+            background-color: #05b1f0;
+            color: #ffffff;
+        }
+        @media print {
+            .btn-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="home.html">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="mt-5">Hóa đơn hanh toán</h1>
+        <div class="bill" id="billContainer">
+            <!-- Bill details will be loaded here -->
+        </div>
+        <button class="btn btn-print mt-3" onclick="printBill()">In hóa đơn</button>
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const order = JSON.parse(localStorage.getItem('orderToPrint'));
+            if (!order) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const billContainer = document.getElementById('billContainer');
+            billContainer.innerHTML = `
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn  hàng</th>
+                            <th>Tên khách hàng</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                            <th>Sản phẩm</th>
+                            <th>Tổng hóa đơn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${order.id}</td>
+                            <td>${order.name}</td>
+                            <td>${order.email}</td>
+                            <td>${order.phone}</td>
+                            <td>${order.address}</td>
+                            <td>${order.product.name}</td>
+                            <td>$${order.total}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+        });
+
+        function printBill() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

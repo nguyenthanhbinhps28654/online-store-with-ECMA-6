@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Dashboard</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body {
+                padding-top: 20px;
+                background-color: #121212;
+                color: #ffffff;
+            }
+            .product-card, .user-card {
+                margin-bottom: 20px;
+            }
+            .card {
+                background-color: #1e1e1e;
+            }
+            .card:hover {
+                background-color: #05b1f0;
+                color: #ffffff;
+            }
+            .orders {
+                margin-top: 50px;
+            }
+            .order {
+                border: 1px solid #ffffff;
+                padding: 20px;
+                margin-bottom: 10px;
+                background-color: #1e1e1e;
+            }
+            .order:hover {
+                background-color: #05b1f0;
+                color: #ffffff;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="home.html">Admin Panel</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="add.html">Thêm sản phẩm</a></li>
+                        <li class="nav-item"><a class="nav-link" href="userreg.html">Thêm User</a></li>
+                    </ul>
+
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Tìm kiếm gì đó..." aria-label="Search" id="searchInput">
+                        <button class="btn btn-outline-light" type="button">Tìm</button>
+                        <button class="btn btn-outline-light" id="logoutButton" type="button">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <h1 class="mb-4">Toàn bộ sản phẩm</h1>
+            <div id="products" class="row row-cols-1 row-cols-md-4 g-4"></div>
+
+            <h1 class="mt-5 mb-4">Toàn bộ user</h1>
+            <div id="users" class="row row-cols-1 row-cols-md-4 g-4"></div>
+        </div>
+        <div class="container">
+            <h1 class="mt-5 mb-4">Toàn bộ đơn hàng</h1>
+            <div class="row" id="ordersContainer">
+                <!-- Orders will be loaded here -->
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="scripts.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+                if (!loggedInUser || loggedInUser.role !== 'admin') {
+                    window.location.href = 'login.html';
+                }
+
+                fetchProducts();
+                fetchUsers();
+                document.getElementById('logoutButton').addEventListener('click', () => {
+                    localStorage.removeItem('loggedInUser');
+                    window.location.href = 'login.html';
+                });
+            });
+            document.addEventListener('DOMContentLoaded', async () => {
+                try {
+                    const response = await fetch('http://localhost:3000/orders');
+                    const orders = await response.json();
+                    const ordersContainer = document.getElementById('ordersContainer');
+
+                    orders.forEach(order => {
+                        const orderElement = document.createElement('div');
+                        orderElement.classList.add('col-md-4');
+                        orderElement.innerHTML = `
+                            <div class="order card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Mã đơn hàng: ${order.id}</h5>
+                                    <p class="card-text">Tên khách hàng: ${order.name}</p>
+                                    <p class="card-text">Email: ${order.email}</p>
+                                    <p class="card-text">Số điện thoại: ${order.phone}</p>
+                                    <p class="card-text">Địa chỉ: ${order.address}</p>
+                                    <p class="card-text">Sản phẩm: ${order.product.name}</p>
+                                    <p class="card-text">Tổng: $${order.total}</p>
+                                    <button class="btn btn-info btn-sm" onclick="showInfo('${order.id}')">Info</button>
+                                    <button class="btn btn-success btn-sm" onclick="printOrder('${order.id}')">In hóa đơn</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteOrder('${order.id}')">Xóa đơn hàng</button>
+                                </div>
+                            </div>
+                        `;
+                        ordersContainer.appendChild(orderElement);
+                    });
+                } catch (error) {
+                    console.error('Error loading orders:', error);
+                }
+            });
+
+            function showInfo(orderId) {
+                fetch(`http://localhost:3000/orders/${orderId}`)
+                    .then(response => response.json())
+                    .then(order => {
+                        alert(`Order ID: ${order.id}\nName: ${order.name}\nEmail: ${order.email}\nPhone: ${order.phone}\nAddress: ${order.address}\nProduct: ${order.product.name}\nTotal: $${order.total}`);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching order info:', error);
+                    });
+            }
+
+            function printOrder(orderId) {
+                fetch(`http://localhost:3000/orders/${orderId}`)
+                    .then(response => response.json())
+                    .then(order => {
+                        localStorage.setItem('orderToPrint', JSON.stringify(order));
+                        window.location.href = 'bill.html';
+                    })
+                    .catch(error => {
+                        console.error('Error fetching order info:', error);
+                    });
+            }
+
+            function deleteOrder(orderId) {
+                if (confirm('Are you sure you want to delete this order?')) {
+                    fetch(`http://localhost:3000/orders/${orderId}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Order deleted successfully');
+                            location.reload();
+                        } else {
+                            alert('Failed to delete order');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting order:', error);
+                    });
+                }
+            }
+        </script>
+    </body>
+</html>

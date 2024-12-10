@@ -1,0 +1,219 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "ROG RTX 4090",
+      "image": "img/rtx4090.png",
+      "price": "1500",
+      "description": "Card đồ họa cao cấp với hiệu năng mạnh mẽ."
+    },
+    {
+      "id": "8cfb",
+      "name": "Gigabyte RTX 3060",
+      "image": "img/rtx3060.png",
+      "price": "800",
+      "description": "Card đồ họa tầm trung với hiệu năng tốt."
+    },
+    {
+      "id": "9009",
+      "name": "Samsung SSD 1TB",
+      "image": "img/SSD1.png",
+      "price": "300",
+      "description": "Ổ cứng SSD với dung lượng lớn và tốc độ cao."
+    },
+    {
+      "name": "Western Digital SDD 1TB",
+      "image": "img/wd.png",
+      "price": "140",
+      "id": "5e04",
+      "description": "Ổ cứng SSD với độ bền và hiệu năng cao."
+    },
+    {
+      "id": "c904",
+      "name": "TUF B550-PLUS",
+      "image": "img/main.png",
+      "price": "400",
+      "description": "Mainboard với thiết kế bền bỉ và nhiều tính năng."
+    },
+    {
+      "id": "ce5a",
+      "name": "CORE I5 12400",
+      "image": "img/i5.png",
+      "price": "300",
+      "description": "CPU hiệu năng tốt cho các tác vụ hàng ngày."
+    },
+    {
+      "id": "af17",
+      "name": "TUF PSU 650W",
+      "image": "img/tufpsu.png",
+      "price": "450",
+      "description": "Nguồn máy tính với công suất và độ ổn định cao."
+    },
+    {
+      "id": "6df1",
+      "name": "ROG B760M",
+      "image": "img/mainrog.png",
+      "price": "780",
+      "description": "Mainboard cao cấp với nhiều tính năng đặc biệt."
+    },
+    {
+      "id": "b545",
+      "name": "ROG RYUJIN III 360",
+      "image": "img/aio360.png",
+      "price": "367",
+      "description": "Tản nhiệt nước cao cấp với hiệu suất làm mát tốt."
+    },
+    {
+      "id": "a1d5",
+      "name": "ROG RYUJIN III 240",
+      "image": "img/aiorog.png",
+      "price": "300",
+      "description": "Tản nhiệt nước với hiệu suất cao và thiết kế đẹp mắt."
+    },
+    {
+      "name": "TUF RTX 4080",
+      "image": "img/rtx4080.png",
+      "price": "5000",
+      "id": "a155",
+      "description": "Card đồ họa cao cấp với hiệu năng tuyệt vời."
+    },
+    {
+      "name": "ROG STRIX RTX 4070",
+      "image": "img/rtx4070.png",
+      "price": "19200",
+      "id": "77de"
+    }
+  ],
+  "users": [
+    {
+      "id": "2",
+      "username": "user",
+      "password": "user123",
+      "role": "user"
+    },
+    {
+      "id": "9d8d",
+      "username": "admin",
+      "password": "admin",
+      "role": "admin"
+    },
+    {
+      "id": "2638",
+      "username": "user123",
+      "password": "user",
+      "role": "user"
+    },
+    {
+      "id": "0265",
+      "username": "abc",
+      "password": "1234",
+      "role": "user"
+    }
+  ],
+  "orders": [
+    {
+      "id": "1717343080240",
+      "name": "nguye binh binh",
+      "email": "pzr85723@omeie.com",
+      "phone": "31613319846",
+      "address": "tphcm\nvn",
+      "product": {
+        "name": "ROG RTX 4090",
+        "price": "1500",
+        "quantity": 1
+      },
+      "total": "1500"
+    },
+    {
+      "id": "1717343156352",
+      "name": "bih",
+      "email": "thanhbinh1234c@gmail.com",
+      "phone": "0975821142",
+      "address": "tphcm\nvn",
+      "product": {
+        "name": "TUF B550-PLUS",
+        "price": "400",
+        "quantity": 1
+      },
+      "total": "400"
+    },
+    {
+      "id": "1717390716516",
+      "name": "NGUYỄN THANH BÌNH",
+      "email": "thanhbinh1234c@gmail.com",
+      "phone": "0975821142",
+      "address": "Khu Phố Long Đại, Long Thành Bắc, Hòa Thành, Tây Ninh",
+      "product": {
+        "name": "ROG RYUJIN III 360",
+        "price": "367",
+        "quantity": 1
+      },
+      "total": "367"
+    },
+    {
+      "id": "1717568345472",
+      "name": "binhigiiib",
+      "email": "pzr85723@omeie.com",
+      "phone": "31613319846",
+      "address": "tphcm",
+      "product": {
+        "name": "ROG STRIX RTX 4070",
+        "price": "12500",
+        "quantity": 1
+      },
+      "total": "12500"
+    },
+    {
+      "id": "1717737377121",
+      "name": "nguye binh binh",
+      "email": "pzr85723@omeie.com",
+      "phone": "0975821142",
+      "address": "TayNinh",
+      "product": {
+        "name": "Samsung SSD 1TB",
+        "price": "300",
+        "quantity": 1
+      },
+      "total": "300"
+    },
+    {
+      "id": "1717737980338",
+      "name": "nguye binh binh",
+      "email": "pzr85723@omeie.com",
+      "phone": "0975821142",
+      "address": "tphcm\nvn",
+      "product": {
+        "name": "Samsung SSD 1TB",
+        "price": "300",
+        "quantity": 1
+      },
+      "total": "300"
+    },
+    {
+      "id": "1718001026907",
+      "name": "nguye binh binh3456789",
+      "email": "pzr85723@omeie.com",
+      "phone": "0975821142",
+      "address": "tphcm\nvn",
+      "product": {
+        "name": "ROG RTX 4090",
+        "price": "1500",
+        "quantity": 1
+      },
+      "total": "1500"
+    },
+    {
+      "id": "1727417057993",
+      "name": "nguye binh binh",
+      "email": "pzr85723@omeie.com",
+      "phone": "31613319846",
+      "address": "tphcm\nvn",
+      "product": {
+        "name": "Samsung SSD 1TB",
+        "price": "300",
+        "quantity": 1
+      },
+      "total": "300"
+    }
+  ]
+}

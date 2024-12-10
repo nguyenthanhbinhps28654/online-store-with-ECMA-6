@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hóa Đơn</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            padding-top: 20px;
+        }
+        .invoice {
+            margin-top: 50px;
+        }
+        .invoice img {
+            max-width: 400px;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="home.html">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="mt-5">Hóa Đơn</h1>
+        <form id="invoiceForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Tên</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" id="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Địa chỉ</label>
+                        <textarea class="form-control" id="address" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="invoice">
+                        <img id="productImage" src="" alt="Product Image">
+                        <h2 id="productName"></h2>
+                        <p id="productPrice"></p>
+                        <p>Số lượng: 1</p>
+                        <p id="totalPrice"></p>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Thanh toán</button>
+        </form>
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const product = JSON.parse(localStorage.getItem('selectedProduct'));
+            if (!product) {
+                window.location.href = 'home.html';
+                return;
+            }
+            document.getElementById('productImage').src = product.image;
+            document.getElementById('productName').innerText = product.name;
+            document.getElementById('productPrice').innerText = 'Price: $' + product.price;
+            document.getElementById('totalPrice').innerText = 'Thành tiền: $' + product.price;
+
+            document.getElementById('invoiceForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const address = document.getElementById('address').value;
+                const total = product.price;
+
+                const order = {
+                    id: Date.now().toString(),
+                    name,
+                    email,
+                    phone,
+                    address,
+                    product: {
+                        name: product.name,
+                        price: product.price,
+                        quantity: 1
+                    },
+                    total
+                };
+
+                try {
+                    const response = await fetch('http://localhost:3000/orders', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(order)
+                    });
+
+                    if (response.ok) {
+                        alert('Thanh toán thành công!');
+                        window.location.href = 'home.html';
+                    } else {
+                        alert('Thanh toán thất bại.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Đã xảy ra lỗi khi thanh toán.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
